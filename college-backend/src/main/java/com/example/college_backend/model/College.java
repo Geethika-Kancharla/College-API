@@ -1,7 +1,7 @@
 package com.example.college_backend.model;
 
-import jakarta.persistence.*;
 import java.util.List;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "college")
@@ -14,8 +14,7 @@ public class College {
     private String courseName;
     private String durationOfCourse;
 
-    @Enumerated(EnumType.STRING)
-    private AccommodationType accommodation;
+    private String accommodation;
 
     private String accommodationFee;
 
@@ -27,6 +26,8 @@ public class College {
     public Long getId() {
         return id;
     }
+
+
 
     public void setId(Long id) {
         this.id = id;
@@ -56,20 +57,39 @@ public class College {
         this.durationOfCourse = durationOfCourse;
     }
 
-    public AccommodationType getAccommodation() {
-        return accommodation;
+
+
+    public String getAccommodation() {
+        return durationOfCourse;
     }
 
-    public void setAccommodation(AccommodationType accommodation) {
-        this.accommodation = accommodation;
+    public void setAccommodation(String durationOfCourse) {
+        this.durationOfCourse = durationOfCourse;
     }
+
+
+
 
     public String getAccommodationFee() {
         return accommodationFee;
     }
 
+
+    public College() {
+    }
+
     public void setAccommodationFee(String accommodationFee) {
         this.accommodationFee = accommodationFee;
+    }
+
+    public College(Long id, String name, String courseName, String durationOfCourse, String accommodation, String accommodationFee, List<CourseFee> courseFees) {
+        this.id = id;
+        this.name = name;
+        this.courseName = courseName;
+        this.durationOfCourse = durationOfCourse;
+        this.accommodation = accommodation;
+        this.accommodationFee = accommodationFee;
+        this.courseFees = courseFees;
     }
 
     public List<CourseFee> getCourseFees() {
@@ -81,7 +101,3 @@ public class College {
     }
 }
 
-enum AccommodationType {
-    AC, NON_AC
-}
-}
