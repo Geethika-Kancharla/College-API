@@ -32,10 +32,10 @@ public class CollegeController {
         college.setAccommodation(collegeDetailsDTO.getAccommodation());
         college.setAccommodationFee(collegeDetailsDTO.getAccommodationFee());
 
-        // Convert the single course fee in DTO to a CourseFee entity
+
         CourseFee courseFee = new CourseFee(collegeDetailsDTO.getCourseFees(), college);
 
-        // Save the College and CourseFee
+
         collegeService.saveCollegeWithFees(college, courseFee);
 
         return ResponseEntity.ok("College and associated course fee created successfully.");
@@ -44,10 +44,10 @@ public class CollegeController {
 
     @GetMapping("/details")
     public ResponseEntity<List<CollegeDetailsDto>> getAllColleges() {
-        // Fetch all colleges
+
         List<College> colleges = collegeService.findAllColleges();
 
-        // Convert list of College entities to list of CollegeDetailsDto
+
         List<CollegeDetailsDto> collegeDetailsDtos = colleges.stream().map(college -> {
             CollegeDetailsDto collegeDetailsDto = new CollegeDetailsDto();
             collegeDetailsDto.setCollegeName(college.getName());
@@ -56,16 +56,16 @@ public class CollegeController {
             collegeDetailsDto.setAccommodation(college.getAccommodation());
             collegeDetailsDto.setAccommodationFee(college.getAccommodationFee());
 
-            // Map CourseFee to the DTO (assuming only one fee per college)
+
             if (!college.getCourseFees().isEmpty()) {
-                String courseFee = college.getCourseFees().get(0).getFee();  // Get the single fee
+                String courseFee = college.getCourseFees().get(0).getFee();
                 collegeDetailsDto.setCourseFees(courseFee);
             }
 
             return collegeDetailsDto;
         }).collect(Collectors.toList());
 
-        // Return the list of CollegeDetailsDto
+
         return new ResponseEntity<>(collegeDetailsDtos, HttpStatus.OK);
     }
 

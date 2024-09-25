@@ -7,7 +7,7 @@ const Add = () => {
         courseName: '',
         courseFees: '',
         durationOfCourse: '',
-        accommodation: '', // Fixed spelling here
+        accommodation: '',
         accommodationFee: ''
     });
 
