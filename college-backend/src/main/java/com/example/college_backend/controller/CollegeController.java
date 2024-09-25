@@ -76,34 +76,7 @@ public class CollegeController {
     }
 
 
-    @GetMapping("/colleges")
-    public ResponseEntity<List<CollegeDetailsDto>> getAllColleges() {
-        // Fetch all colleges
-        List<College> colleges = collegeService.findAllColleges();
 
-        // Convert list of College entities to list of CollegeDetailsDto
-        List<CollegeDetailsDto> collegeDetailsDtos = colleges.stream().map(college -> {
-            CollegeDetailsDto collegeDetailsDto = new CollegeDetailsDto();
-            collegeDetailsDto.setCollegeName(college.getName());
-            collegeDetailsDto.setCourseName(college.getCourseName());
-            collegeDetailsDto.setDurationOfCourse(college.getDurationOfCourse());
-            collegeDetailsDto.setAccommodation(college.getAccommodation());
-            collegeDetailsDto.setAccommodationFee(college.getAccommodationFee());
-
-            // Map CourseFees to the DTO
-            List<Double> courseFees = college.getCourseFees()
-                    .stream()
-                    .map(CourseFee::getFee)
-                    .collect(Collectors.toList());
-
-            collegeDetailsDto.setCourseFees(courseFees);
-
-            return collegeDetailsDto;
-        }).collect(Collectors.toList());
-
-        // Return the list of CollegeDetailsDto
-        return new ResponseEntity<>(collegeDetailsDtos, HttpStatus.OK);
-    }
 
 
 
