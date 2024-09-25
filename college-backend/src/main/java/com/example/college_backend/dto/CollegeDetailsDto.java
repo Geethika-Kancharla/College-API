@@ -1,12 +1,10 @@
 package com.example.college_backend.dto;
 
-import java.util.List;
-
 public class CollegeDetailsDto {
 
     private String collegeName;
     private String courseName;
-    private List<Double> courseFees;
+    private String courseFees;  // Changed to String
     private String durationOfCourse;
     private String accommodation;
     private String accommodationFee;
@@ -28,11 +26,11 @@ public class CollegeDetailsDto {
         this.courseName = courseName;
     }
 
-    public List<Double> getCourseFees() {
+    public String getCourseFees() {  // Now returns String
         return courseFees;
     }
 
-    public void setCourseFees(List<Double> courseFees) {
+    public void setCourseFees(String courseFees) {  // Now accepts String
         this.courseFees = courseFees;
     }
 

@@ -4,14 +4,13 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "course_fee")
-
 public class CourseFee {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Double fee;
+    private String fee;  // Changed to String
 
     // Many-to-one relationship with the College entity
     @ManyToOne
@@ -26,12 +25,12 @@ public class CourseFee {
     public CourseFee() {
     }
 
-    public CourseFee(Double fee, College college) {
+    public CourseFee(String fee, College college) {  // Now takes String fee
         this.fee = fee;
         this.college = college;
     }
 
-    public CourseFee(Long id, Double fee, College college) {
+    public CourseFee(Long id, String fee, College college) {  // Updated constructor
         this.id = id;
         this.fee = fee;
         this.college = college;
@@ -41,11 +40,11 @@ public class CourseFee {
         this.id = id;
     }
 
-    public Double getFee() {
+    public String getFee() {  // Returns String
         return fee;
     }
 
-    public void setFee(Double fee) {
+    public void setFee(String fee) {  // Accepts String
         this.fee = fee;
     }
 

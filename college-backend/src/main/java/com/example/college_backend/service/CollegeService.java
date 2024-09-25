@@ -11,5 +11,5 @@ import java.util.List;
 public interface CollegeService {
 
     List<College> findAllColleges();
-    void saveCollegeWithFees(College college, List<CourseFee> courseFees);
+    void saveCollegeWithFees(College college, CourseFee courseFee);
 }

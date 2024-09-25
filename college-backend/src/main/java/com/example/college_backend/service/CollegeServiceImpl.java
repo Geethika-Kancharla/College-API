@@ -22,14 +22,14 @@ public class CollegeServiceImpl implements CollegeService{
         return collegeRepository.findAll();
     }
 
-    public void saveCollegeWithFees(College college, List<CourseFee> courseFees) {
+    public void saveCollegeWithFees(College college, CourseFee courseFee) {
         // Save the college
         College savedCollege = collegeRepository.save(college);
 
-        // Save each course fee with the associated college
-        for (CourseFee courseFee : courseFees) {
-            courseFee.setCollege(savedCollege);
-            courseFeeRepository.save(courseFee);
-        }
+        // Set the associated college for the course fee
+        courseFee.setCollege(savedCollege);
+
+        // Save the course fee
+        courseFeeRepository.save(courseFee);
     }
 }

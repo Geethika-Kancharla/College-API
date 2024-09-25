@@ -32,17 +32,15 @@ public class CollegeController {
         college.setAccommodation(collegeDetailsDTO.getAccommodation());
         college.setAccommodationFee(collegeDetailsDTO.getAccommodationFee());
 
-        // Convert the list of fees in DTO to CourseFee entities
-        List<CourseFee> courseFees = collegeDetailsDTO.getCourseFees()
-                .stream()
-                .map(fee -> new CourseFee(fee, college))
-                .collect(Collectors.toList());
+        // Convert the single course fee in DTO to a CourseFee entity
+        CourseFee courseFee = new CourseFee(collegeDetailsDTO.getCourseFees(), college);
 
-        // Save the College and CourseFees
-        collegeService.saveCollegeWithFees(college, courseFees);
+        // Save the College and CourseFee
+        collegeService.saveCollegeWithFees(college, courseFee);
 
-        return ResponseEntity.ok("College and associated course fees created successfully.");
+        return ResponseEntity.ok("College and associated course fee created successfully.");
     }
+
 
     @GetMapping("/details")
     public ResponseEntity<List<CollegeDetailsDto>> getAllColleges() {
@@ -58,13 +56,11 @@ public class CollegeController {
             collegeDetailsDto.setAccommodation(college.getAccommodation());
             collegeDetailsDto.setAccommodationFee(college.getAccommodationFee());
 
-            // Map CourseFees to the DTO
-            List<Double> courseFees = college.getCourseFees()
-                    .stream()
-                    .map(CourseFee::getFee)
-                    .collect(Collectors.toList());
-
-            collegeDetailsDto.setCourseFees(courseFees);
+            // Map CourseFee to the DTO (assuming only one fee per college)
+            if (!college.getCourseFees().isEmpty()) {
+                String courseFee = college.getCourseFees().get(0).getFee();  // Get the single fee
+                collegeDetailsDto.setCourseFees(courseFee);
+            }
 
             return collegeDetailsDto;
         }).collect(Collectors.toList());
