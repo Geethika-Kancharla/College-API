@@ -10,6 +10,6 @@ import java.util.List;
 @Service
 public interface CollegeService {
 
-
+    List<College> findAllColleges();
     void saveCollegeWithFees(College college, List<CourseFee> courseFees);
 }

@@ -13,12 +13,9 @@ public class College {
     private String name;
     private String courseName;
     private String durationOfCourse;
-
     private String accommodation;
-
     private String accommodationFee;
 
-    // Relationship to map the course fee (OneToMany relationship)
     @OneToMany(mappedBy = "college", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<CourseFee> courseFees;
 
@@ -26,8 +23,6 @@ public class College {
     public Long getId() {
         return id;
     }
-
-
 
     public void setId(Long id) {
         this.id = id;
@@ -57,30 +52,23 @@ public class College {
         this.durationOfCourse = durationOfCourse;
     }
 
-
-
     public String getAccommodation() {
-        return durationOfCourse;
+        return accommodation; // Corrected to return accommodation
     }
 
-    public void setAccommodation(String durationOfCourse) {
-        this.durationOfCourse = durationOfCourse;
+    public void setAccommodation(String accommodation) { // Corrected setter
+        this.accommodation = accommodation;
     }
-
-
-
 
     public String getAccommodationFee() {
         return accommodationFee;
     }
 
-
-    public College() {
-    }
-
     public void setAccommodationFee(String accommodationFee) {
         this.accommodationFee = accommodationFee;
     }
+
+    public College() {}
 
     public College(Long id, String name, String courseName, String durationOfCourse, String accommodation, String accommodationFee, List<CourseFee> courseFees) {
         this.id = id;
@@ -100,4 +88,3 @@ public class College {
         this.courseFees = courseFees;
     }
 }
-

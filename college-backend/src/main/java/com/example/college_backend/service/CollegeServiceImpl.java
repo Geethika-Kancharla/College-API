@@ -17,6 +17,11 @@ public class CollegeServiceImpl implements CollegeService{
     @Autowired
     private CourseFeeRepository courseFeeRepository;
 
+    @Override
+    public List<College> findAllColleges() {
+        return collegeRepository.findAll();
+    }
+
     public void saveCollegeWithFees(College college, List<CourseFee> courseFees) {
         // Save the college
         College savedCollege = collegeRepository.save(college);
