@@ -16,9 +16,11 @@ const Home = () => {
 
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+    const apiUrl = process.env.REACT_APP_API_URL;
+
     const getAll = async () => {
         try {
-            const response = await fetch("http://localhost:8080/details");
+            const response = await fetch(`${apiUrl}/details`);
 
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);

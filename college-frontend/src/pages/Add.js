@@ -11,6 +11,8 @@ const Add = () => {
         accommodationFee: ''
     });
 
+    const apiUrl = process.env.REACT_APP_API_URL;
+
     const navigate = useNavigate();
     const [message, setMessage] = useState('');
 
@@ -21,7 +23,7 @@ const Add = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch('http://localhost:8080/create', {
+            const response = await fetch(`${apiUrl}/create`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
