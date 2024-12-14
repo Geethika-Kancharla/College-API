@@ -3,12 +3,12 @@ services:
     image: mysql:8
     container_name: mysql-container
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: college
-      MYSQL_USER: root
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD} 
+      MYSQL_DATABASE: ${MYSQL_DATABASE}           
+      MYSQL_USER: ${MYSQL_USER}                 
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}          
     ports:
-      - "3306:3306"
+      - "3307:3306"
     volumes:
       - mysql_data:/var/lib/mysql
 
@@ -22,9 +22,10 @@ services:
     depends_on:
       - mysql
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-container:3306/college
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_USER: ${MYSQL_USER}    
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}  
+    volumes:
+      - ./college-backend/.env:/app/.env  
 
   frontend:
     build:
