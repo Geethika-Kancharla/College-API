@@ -1,16 +1,17 @@
-# Use OpenJDK base image to run the application
-FROM openjdk:17-jdk-slim
 
-# Set the working directory inside the container
+FROM maven:3.8.4-openjdk-17-slim AS build
 WORKDIR /app
+COPY pom.xml .
+COPY src ./src
 
-# Copy the built jar file from the target folder to the container
-COPY target/college-backend-0.0.1-SNAPSHOT.jar /app/college-backend.jar
 
-# Expose the application port
+RUN mvn clean package -DskipTests
+
+
+FROM openjdk:17-jdk-slim
+WORKDIR /app
+COPY --from=build /app/target/college-backend-0.0.1-SNAPSHOT.jar /app/college-backend.jar
 EXPOSE 8080
-
-# Command to run the Spring Boot application
 ENTRYPOINT ["java", "-jar", "/app/college-backend.jar"]
 
 

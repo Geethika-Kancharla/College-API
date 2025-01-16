@@ -3,14 +3,21 @@ services:
     image: mysql:8
     container_name: mysql-container
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD} 
-      MYSQL_DATABASE: ${MYSQL_DATABASE}           
-      MYSQL_USER: ${MYSQL_USER}                 
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}          
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     ports:
-      - "3307:3306"
+      - "${MYSQL_PORT}:3306"
     volumes:
       - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u${MYSQL_USER}", "-p${MYSQL_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - app-network
 
   backend:
     build:
@@ -20,12 +27,15 @@ services:
     ports:
       - "8080:8080"
     depends_on:
-      - mysql
+      mysql:
+        condition: service_healthy
     environment:
-      MYSQL_USER: ${MYSQL_USER}    
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}  
-    volumes:
-      - ./college-backend/.env:/app/.env  
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/${MYSQL_DATABASE}?allowPublicKeyRetrieval=true&useSSL=false
+    networks:
+      - app-network
 
   frontend:
     build:
@@ -33,9 +43,15 @@ services:
       dockerfile: Dockerfile
     container_name: frontend-container
     ports:
-      - "80:80"
+      - "3000:80"
     depends_on:
       - backend
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
 
 volumes:
   mysql_data:
