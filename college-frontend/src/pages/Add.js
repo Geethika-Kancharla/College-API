@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-const API_URL = 'http://localhost:8080';  // Changed to backend port
+const API_URL = 'http://localhost:8080'|| 'https://college-api-ohxw.onrender.com';  
 
 const Add = () => {
     const [formData, setFormData] = useState({

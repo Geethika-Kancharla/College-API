@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 const Home = () => {
-
-
     const TABLE_HEAD = ["College Name", "Course Name", "Course Fee", "Duration of Course", "Accomodation(AC/Non-AC)", "Accomodation Fee"];
 
     const [users, setUsers] = useState([]);
@@ -16,7 +14,8 @@ const Home = () => {
 
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-    const API_URL = 'http://localhost:8080';  // Changed to backend port
+    const API_URL = 'http://localhost:8080' || 'https://college-api-ohxw.onrender.com';
+
 
     const fetchColleges = async () => {
         try {
