@@ -14,7 +14,7 @@ const Home = () => {
 
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-    const API_URL = 'http://localhost:8080' || 'https://college-api-ohxw.onrender.com';
+    const API_URL = process.env.REACT_APP_API_URL || 'https://college-api-ohxw.onrender.com';
 
 
     const fetchColleges = async () => {
@@ -22,8 +22,10 @@ const Home = () => {
             console.log('Fetching from:', `${API_URL}/api/details`);
             const response = await fetch(`${API_URL}/api/details`, {
                 headers: {
-                    'Accept': 'application/json'
-                }
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                credentials: 'omit'
             });
 
             if (!response.ok) {

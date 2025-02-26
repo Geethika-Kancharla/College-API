@@ -16,7 +16,11 @@ import java.util.Collections;
 import java.util.Map;
 
 @RestController
-@CrossOrigin(origins = "*", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.OPTIONS})
+@CrossOrigin(
+    origins = {"https://college-api-theta.vercel.app/", "http://localhost:3000"},
+    methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.OPTIONS},
+    allowedHeaders = "*"
+)
 @RequestMapping("/api")
 public class CollegeController {
 

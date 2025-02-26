@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-const API_URL = 'http://localhost:8080'|| 'https://college-api-ohxw.onrender.com';  
+const API_URL = process.env.REACT_APP_API_URL || 'https://college-api-ohxw.onrender.com';
 
 const Add = () => {
     const [formData, setFormData] = useState({
@@ -30,7 +30,8 @@ const Add = () => {
                     'Content-Type': 'application/json',
                     'Accept': 'application/json'
                 },
-                body: JSON.stringify(formData)
+                body: JSON.stringify(formData),
+                credentials: 'omit'
             });
 
             if (!response.ok) {
