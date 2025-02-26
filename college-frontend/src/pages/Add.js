@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
+const API_URL = 'http://localhost:8080';  // Changed to backend port
+
 const Add = () => {
     const [formData, setFormData] = useState({
         collegeName: '',
@@ -10,8 +12,6 @@ const Add = () => {
         accommodation: '',
         accommodationFee: ''
     });
-
-    const apiUrl = process.env.REACT_APP_API_URL;
 
     const navigate = useNavigate();
     const [message, setMessage] = useState('');
@@ -23,28 +23,29 @@ const Add = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch(`${apiUrl}/create`, {
+            console.log('Submitting to:', `${API_URL}/api/create`);
+            const response = await fetch(`${API_URL}/api/create`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Accept': 'application/json'
                 },
-                body: JSON.stringify(formData),
+                body: JSON.stringify(formData)
             });
 
-            // Log full response for debugging
-            const responseBody = await response.text(); // Using `text()` to handle any unexpected non-JSON response
-            console.log('Response status:', response.status);
-            console.log('Response body:', responseBody);
-
-            if (response.ok) {
-                navigate("/");
-            } else {
-                const data = JSON.parse(responseBody); // Handle case if it's JSON, but not ok
-                setMessage(data.message || 'Registration failed. Please try again.');
+            if (!response.ok) {
+                const errorText = await response.text();
+                console.error('Response status:', response.status);
+                console.error('Response body:', errorText);
+                throw new Error(`HTTP error! status: ${response.status}`);
             }
+
+            const result = await response.json();
+            console.log('Success:', result);
+            navigate("/");
         } catch (error) {
-            setMessage('Registration failed. Please try again.');
             console.error('Error during registration:', error);
+            setMessage('Registration failed. Please try again.');
         }
     };
 

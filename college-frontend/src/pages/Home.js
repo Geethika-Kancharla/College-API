@@ -16,29 +16,34 @@ const Home = () => {
 
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-    const apiUrl = process.env.REACT_APP_API_URL;
+    const API_URL = 'http://localhost:8080';  // Changed to backend port
 
-    const getAll = async () => {
+    const fetchColleges = async () => {
         try {
-            const response = await fetch(`${apiUrl}/details`);
+            console.log('Fetching from:', `${API_URL}/api/details`);
+            const response = await fetch(`${API_URL}/api/details`, {
+                headers: {
+                    'Accept': 'application/json'
+                }
+            });
 
             if (!response.ok) {
+                const errorText = await response.text();
+                console.error('Response status:', response.status);
+                console.error('Response body:', errorText);
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
 
             const data = await response.json();
-
             setUsers(data);
-            console.log(data);
-
         } catch (error) {
-            console.error("Error fetching colleges:", error);
+            console.error('Error fetching colleges:', error);
         }
     };
 
 
     useEffect(() => {
-        getAll();
+        fetchColleges();
     }, []);
 
 
@@ -51,7 +56,7 @@ const Home = () => {
                 </div>
                 <div className="flex flex-col gap-2 sm:flex-row">
 
-                    <button className="border border-gray-300 rounded px-4 py-2 text-sm text-gray-700 hover:bg-black hover:text-white" onClick={getAll}>
+                    <button className="border border-gray-300 rounded px-4 py-2 text-sm text-gray-700 hover:bg-black hover:text-white" onClick={fetchColleges}>
                         View all
                     </button>
                     <Link to="/add" ><button className="flex items-center gap-2 border border-gray-300 rounded px-4 py-2 text-sm text-gray-700 hover:bg-black hover:text-white">
