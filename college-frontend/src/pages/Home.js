@@ -14,7 +14,7 @@ const Home = () => {
 
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-    const API_URL = process.env.REACT_APP_API_URL || 'https://college-api-ohxw.onrender.com';
+    const API_URL = 'https://college-api-ohxw.onrender.com';
 
 
     const fetchColleges = async () => {
